@@ -38,6 +38,19 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private LayerMask interactableLayer; // Optional: filter what you hit
 
+    [Header("Grab Settings")]
+    [SerializeField] private float grabDistance = 3f;
+    [SerializeField] private float grabMoveSpeed = 10f;
+
+    [Header("Highlight Settings")]
+    [SerializeField] private Material highlightMaterial;
+
+    private Transform currentTarget;
+    private Material originalMaterial;
+
+    private Rigidbody grabbedObject;
+    private Vector3 grabOffset;
+
 
 
     private CharacterController characterController;
@@ -115,49 +128,95 @@ public class PlayerController : MonoBehaviour
 
 
     private void HandleRaycast()
-
     {
+        if (Mouse.current == null) return;
 
-        // Changed "wasPressedThisFrame" to "isPressed" for continuous firing
+        Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
+        RaycastHit hit;
 
-        if (Mouse.current != null && Mouse.current.leftButton.isPressed)
+        bool hitSomething = Physics.Raycast(ray, out hit, rayDistance, interactableLayer);
 
+        // ===== HIGHLIGHT LOGIC =====
+        if (hitSomething)
         {
+            Transform target = hit.collider.transform;
 
-            // The ray starts at the camera position and fires forward
-
-            Ray ray = new Ray(cameraTransform.position, cameraTransform.forward);
-
-            RaycastHit hit;
-
-
-
-            // Visualizing the continuous beam in the Scene view
-
-            Debug.DrawRay(cameraTransform.position, cameraTransform.forward * rayDistance, Color.green);
-
-
-
-            if (Physics.Raycast(ray, out hit, rayDistance, interactableLayer))
-
+            if (currentTarget != target)
             {
+                ClearHighlight();
 
-                // This will now log every frame while you are pointing at something
-
-                Debug.Log("Continuously hitting: " + hit.collider.name);
-
-
-
-                // Example: If you wanted to "drill" or "heal" something over time:
-
-                // hit.collider.GetComponent<Health>()?.TakeDamage(damagePerSecond * Time.deltaTime);
-
+                Renderer renderer = target.GetComponent<Renderer>();
+                if (renderer != null)
+                {
+                    originalMaterial = renderer.material;
+                    renderer.material = highlightMaterial;
+                    currentTarget = target;
+                }
             }
-
+        }
+        else
+        {
+            ClearHighlight();
         }
 
+        // ===== GRAB LOGIC =====
+        if (Mouse.current.leftButton.wasPressedThisFrame && hitSomething)
+        {
+            Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                grabbedObject = rb;
+                grabbedObject.useGravity = false;
+                grabbedObject.linearDamping = 10f;
+            }
+        }
+
+        if (Mouse.current.leftButton.isPressed && grabbedObject != null)
+        {
+            Vector3 targetPosition = cameraTransform.position + cameraTransform.forward * grabDistance;
+            Vector3 direction = targetPosition - grabbedObject.position;
+            grabbedObject.linearVelocity = direction * grabMoveSpeed;
+        }
+
+        if (Mouse.current.leftButton.wasReleasedThisFrame && grabbedObject != null)
+        {
+
+            grabbedObject.useGravity = true;
+            grabbedObject.linearDamping = 0f;
+            grabbedObject = null;
+        }
     }
 
+    private void ClearHighlight()
+    {
+        if (currentTarget != null)
+        {
+            Renderer renderer = currentTarget.GetComponent<Renderer>();
+            if (renderer != null && originalMaterial != null)
+            {
+                renderer.material = originalMaterial;
+            }
+
+            currentTarget = null;
+            originalMaterial = null;
+        }
+    }
+
+    public void ForceRelease(Rigidbody rb)
+    {
+        if (grabbedObject == rb)
+        {
+            grabbedObject.linearVelocity = Vector3.zero;
+            grabbedObject.angularVelocity = Vector3.zero;
+
+            grabbedObject.useGravity = true;
+            grabbedObject.linearDamping = 0f;
+
+            grabbedObject = null;
+
+            ClearHighlight();
+        }
+    }
 
 
     private void HandleCursorLock()
