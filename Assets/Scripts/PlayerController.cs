@@ -165,6 +165,12 @@ public class PlayerController : MonoBehaviour
             Rigidbody rb = hit.collider.GetComponent<Rigidbody>();
             if (rb != null)
             {
+                FixedJoint joint = rb.GetComponent<FixedJoint>();
+                if (joint != null)
+                {
+                    Destroy(joint);
+                }
+
                 grabbedObject = rb;
                 grabbedObject.useGravity = false;
                 grabbedObject.linearDamping = 10f;
