@@ -36,9 +36,11 @@ public class ConnectionPoint : MonoBehaviour
         Quaternion rotationOffset = target.rotation * Quaternion.Inverse(myPoint.rotation);
         myRb.transform.rotation = rotationOffset * myRb.transform.rotation;
 
-        // OPTIONAL: Add FixedJoint for locking
         FixedJoint joint = myRb.gameObject.AddComponent<FixedJoint>();
         joint.connectedBody = targetPoint.GetComponentInParent<Rigidbody>();
+
+        joint.breakForce = 150f;
+        joint.breakTorque = 150f;
 
         // Force release from player if being held
         PlayerController player = FindFirstObjectByType<PlayerController>();
