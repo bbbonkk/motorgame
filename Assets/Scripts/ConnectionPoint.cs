@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class ConnectionPoint : MonoBehaviour
 {
+    [SerializeField] private float BreakForce = 150f;
+
+    [SerializeField] private float BreakTorque = 150f;
     private void OnTriggerEnter(Collider other)
     {
         if (!other.TryGetComponent(out ConnectionPoint otherPoint))
@@ -39,8 +42,8 @@ public class ConnectionPoint : MonoBehaviour
         FixedJoint joint = myRb.gameObject.AddComponent<FixedJoint>();
         joint.connectedBody = targetPoint.GetComponentInParent<Rigidbody>();
 
-        joint.breakForce = 150f;
-        joint.breakTorque = 150f;
+        joint.breakForce = BreakForce;
+        joint.breakTorque = BreakTorque;
 
         // Force release from player if being held
         PlayerController player = FindFirstObjectByType<PlayerController>();
