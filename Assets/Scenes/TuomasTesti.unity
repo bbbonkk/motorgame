@@ -157,8 +157,8 @@ MonoBehaviour:
   gravity: -9.81
   cameraTransform: {fileID: 785159128}
   mouseSensitivity: 0.1
-  minVerticalAngle: -60
-  maxVerticalAngle: 60
+  minVerticalAngle: -90
+  maxVerticalAngle: 90
   rayDistance: 15
   interactableLayer:
     serializedVersion: 2
@@ -755,6 +755,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 474140843320776142, guid: ae19dc6c3d694364baa245cac83e8d45, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 28841b85a98c5b14684cd575ff7ce4e7, type: 2}
     - target: {fileID: 1648124263501950625, guid: ae19dc6c3d694364baa245cac83e8d45, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.395
@@ -812,6 +816,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2932169718238900145, guid: fe441575a21a69548bc2b1955364fb55, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 28841b85a98c5b14684cd575ff7ce4e7, type: 2}
     - target: {fileID: 3724992163262942820, guid: fe441575a21a69548bc2b1955364fb55, type: 3}
       propertyPath: m_Name
       value: piston (1)
@@ -869,6 +877,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1133493350670608562, guid: de90c62778e15b346bc1eb34e9cd13b0, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 28841b85a98c5b14684cd575ff7ce4e7, type: 2}
     - target: {fileID: 1493513108563593575, guid: de90c62778e15b346bc1eb34e9cd13b0, type: 3}
       propertyPath: m_Name
       value: piston
