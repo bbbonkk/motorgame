@@ -159,7 +159,7 @@ MonoBehaviour:
   mouseSensitivity: 0.1
   minVerticalAngle: -60
   maxVerticalAngle: 60
-  rayDistance: 10
+  rayDistance: 5
   interactableLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -341,8 +341,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.71, y: 5.3960896, z: 1.8474374}
-  m_Center: {x: 9.086478e-16, y: -1.1980687, z: -0.40968975}
+  m_Size: {x: 6.089999, y: 5.396089, z: 6.0859537}
+  m_Center: {x: -2.1013668e-15, y: -1.1980684, z: 1.709569}
 --- !u!114 &41429499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1060,7 +1060,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3, y: 3, z: 6.873633}
+  m_Size: {x: 3, y: 7.41, z: 8.43}
   m_Center: {x: -1.0616023e-14, y: -0.000023056487, z: 0.95084625}
 --- !u!114 &1824928545
 MonoBehaviour:
